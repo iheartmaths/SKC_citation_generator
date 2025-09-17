@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SKC Citation Generator</title>
+    <title>APA 7 Citation Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -18,7 +18,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f9fafb; /* A slightly off-white background */
+            background-color: #f9fafb;
         }
 
         .main-title {
@@ -28,7 +28,7 @@
         .form-input {
             @apply w-full px-4 py-2 mt-1 text-gray-800 border-2 rounded-md focus:outline-none transition-shadow;
             background-color: var(--soft-grey);
-            border-color: #d1d5db; /* A neutral grey border */
+            border-color: #d1d5db;
         }
 
         .form-input:focus {
@@ -41,20 +41,17 @@
         }
 
         .btn {
-            /* Increased padding (py-3), rounded corners (rounded-xl), and ensured white text */
-            color:white;
-            padding:10px;
-            border-radius:5px;
-            margin-right:20px;
-            @apply px-8 py-3 font-semibold text-white transition-all transform rounded-xl shadow-md hover:scale-105 border-2;
+             padding: 12px 24px;
+             color: white;
+             @apply font-semibold transition-all transform rounded-xl shadow-md hover:scale-105 border-2;
         }
-
+        
         .btn-primary {
             background-color: var(--royal-blue);
             border-color: var(--royal-blue);
         }
         .btn-primary:hover {
-            background-color: #0c2c66; /* Darker Royal Blue */
+            background-color: #0c2c66;
         }
 
         .btn-secondary {
@@ -62,7 +59,7 @@
             border-color: var(--green);
         }
         .btn-secondary:hover {
-            background-color: #22612d; /* Darker Green */
+            background-color: #22612d;
         }
         
         .output-bg {
@@ -84,8 +81,8 @@
     <div class="container mx-auto max-w-2xl p-4 sm:p-6 lg:p-8">
         <div class="bg-white rounded-2xl shadow-lg p-8">
             <header class="text-center mb-8">
-                <h1 class="text-3xl sm:text-4xl font-bold main-title">SKC Citation Generator</h1>
-                <p class="text-gray-500 mt-2">Create accurate citations using the Harvard style for your research projects and assignments.</p>
+                <h1 class="text-3xl sm:text-4xl font-bold main-title">APA 7 Citation Generator</h1>
+                <p class="text-gray-500 mt-2">Create accurate citations for your research papers and assignments.</p>
             </header>
 
             <main>
@@ -113,10 +110,8 @@
 
                 <!-- Action Buttons -->
                 <div class="text-center mb-8 flex flex-col sm:flex-row sm:justify-center items-center">
-                    
-                    <button id="todayBtn" class="btn btn-secondary w-full sm:w-auto mt-2 sm:mt-0 sm:ml-4 hidden">Viewed/Accessed Today</button>
-                
                     <button id="generateBtn" class="btn btn-primary w-full sm:w-auto">Generate Citation</button>
+                    <button id="todayBtn" class="btn btn-secondary w-full sm:w-auto mt-2 sm:mt-0 sm:ml-4 hidden">Retrieved Today</button>
                 </div>
 
                 <!-- Output Section -->
@@ -146,125 +141,132 @@
         const copyBtn = document.getElementById('copyBtn');
         const copyMessage = document.getElementById('copy-message');
 
-        // --- Data: Fields for each citation type based on institutional guide ---
-        const citationFields = {
-            website: [
-                { name: 'author', label: 'Author/Organisation', placeholder: 'e.g., NASA' },
-                { name: 'year', label: 'Year Published', placeholder: 'e.g., 2025' },
-                { name: 'title', label: 'Page Title', placeholder: 'e.g., Explore Moon to Mars' },
-                { name: 'url', label: 'URL', placeholder: 'https://...' },
-                { name: 'viewedDay', label: 'Viewed Day', placeholder: 'e.g., 25' },
-                { name: 'viewedMonth', label: 'Viewed Month', placeholder: 'e.g., February' },
-                { name: 'viewedYear', label: 'Viewed Year', placeholder: 'e.g., 2025' },
-            ],
-            onlineEncyclopedia: [
-                { name: 'author', label: 'Author (if available)', placeholder: 'e.g., Oberg, J' },
-                { name: 'year', label: 'Year Published', placeholder: 'e.g., 2025' },
-                { name: 'title', label: 'Article Title', placeholder: 'e.g., Space exploration' },
-                { name: 'encyclopedia', label: 'Encyclopedia Name', placeholder: 'e.g., World Book Student' },
-                { name: 'publisher', label: 'Publisher', placeholder: 'e.g., World Book' },
-                { name: 'city', label: 'City', placeholder: 'e.g., Chicago' },
-                { name: 'url', label: 'URL', placeholder: 'https://...' },
-                { name: 'viewedDay', label: 'Viewed Day', placeholder: 'e.g., 21' },
-                { name: 'viewedMonth', label: 'Viewed Month', placeholder: 'e.g., January' },
-                { name: 'viewedYear', label: 'Viewed Year', placeholder: 'e.g., 2025' },
-            ],
-            youtube: [
-                { name: 'title', label: 'Video Title', placeholder: 'e.g., The Earth is Not Alone' },
-                { name: 'year', label: 'Year Uploaded', placeholder: 'e.g., 2025' },
-                { name: 'url', label: 'URL', placeholder: 'https://...' },
-                { name: 'viewedDay', label: 'Viewed Day', placeholder: 'e.g., 22' },
-                { name: 'viewedMonth', label: 'Viewed Month', placeholder: 'e.g., February' },
-                { name: 'viewedYear', label: 'Viewed Year', placeholder: 'e.g., 2025' },
-            ],
-            onlineNewspaper: [
-                { name: 'author', label: 'Author(s)', placeholder: 'e.g., Whitbourn, M' },
-                { name: 'year', label: 'Year Published', placeholder: 'e.g., 2025' },
-                { name: 'title', label: 'Article Title', placeholder: 'e.g., The tweet that cost $105,000' },
-                { name: 'newspaper', label: 'Newspaper Name', placeholder: 'e.g., The Sydney Morning Herald' },
-                { name: 'day', label: 'Day of Publication', placeholder: 'e.g., 4' },
-                { name: 'month', label: 'Month of Publication', placeholder: 'e.g., March' },
-                { name: 'page', label: 'Page Number', placeholder: 'e.g., 4' },
-                { name: 'url', label: 'URL', placeholder: 'http://...' },
-            ],
-            onlineMagazine: [
-                { name: 'author', label: 'Author(s)', placeholder: 'e.g., Lovett, P' },
-                { name: 'year', label: 'Year Published', placeholder: 'e.g., 2024' },
-                { name: 'title', label: 'Article Title', placeholder: 'e.g., Man-made earthquakes...' },
-                { name: 'magazine', label: 'Magazine Name', placeholder: 'e.g., Cosmos: The Science of Everything' },
-                { name: 'url', label: 'URL', placeholder: 'http://...' },
-                { name: 'viewedDay', label: 'Viewed Day', placeholder: 'e.g., 25' },
-                { name: 'viewedMonth', label: 'Viewed Month', placeholder: 'e.g., March' },
-                { name: 'viewedYear', label: 'Viewed Year', placeholder: 'e.g., 2025' },
-            ],
-            onlineImage: [
-                { name: 'author', label: 'Artist/Creator (if known)', placeholder: 'e.g., Monet, C' },
-                { name: 'year', label: 'Year Created', placeholder: 'e.g., 1890' },
-                { name: 'title', label: 'Image Title', placeholder: 'e.g., Haystacks, midday' },
-                { name: 'medium', label: 'Medium/Type', placeholder: 'e.g., painting' },
-                { name: 'gallery', label: 'Gallery/Website', placeholder: 'e.g., National Gallery of Australia' },
-                { name: 'city', label: 'City (if applicable)', placeholder: 'e.g., Canberra' },
-                { name: 'url', label: 'URL', placeholder: 'http://...' },
-                { name: 'viewedDay', label: 'Viewed Day', placeholder: 'e.g., 18' },
-                { name: 'viewedMonth', label: 'Viewed Month', placeholder: 'e.g., February' },
-                { name: 'viewedYear', label: 'Viewed Year', placeholder: 'e.g., 2025' },
-            ],
-            googleMaps: [
-                { name: 'title', label: 'Location/Place Name', placeholder: 'e.g., Himalayas' },
-                { name: 'year', label: 'Year', placeholder: 'e.g., 2025' },
-                { name: 'url', label: 'URL', placeholder: 'https://...' },
-                { name: 'viewedDay', label: 'Viewed Day', placeholder: 'e.g., 21' },
-                { name: 'viewedMonth', label: 'Viewed Month', placeholder: 'e.g., March' },
-                { name: 'viewedYear', label: 'Viewed Year', placeholder: 'e.g., 2025' },
-            ],
-            podcast: [
-                { name: 'title', label: 'Podcast/Episode Title', placeholder: 'e.g., AM: News & Current Affairs' },
-                { name: 'year', label: 'Year', placeholder: 'e.g., 2025' },
-                { name: 'publisher', label: 'Publisher', placeholder: 'e.g., ABC Radio' },
-                { name: 'city', label: 'City', placeholder: 'e.g., Melbourne' },
-                { name: 'day', label: 'Day of Broadcast', placeholder: 'e.g., 28' },
-                { name: 'month', label: 'Month of Broadcast', placeholder: 'e.g., February' },
-                { name: 'url', label: 'URL', placeholder: 'http://...' },
-                { name: 'accessedDay', label: 'Accessed Day', placeholder: 'e.g., 28' },
-                { name: 'accessedMonth', label: 'Accessed Month', placeholder: 'e.g., March' },
-                { name: 'accessedYear', label: 'Accessed Year', placeholder: 'e.g., 2025' },
-            ],
-            book: [
-                { name: 'author', label: 'Author(s)', placeholder: 'e.g., Holden, A' },
-                { name: 'year', label: 'Year Published', placeholder: 'e.g., 2024' },
-                { name: 'title', label: 'Book Title', placeholder: 'e.g., Earthquakes and Volcanoes' },
-                { name: 'publisher', label: 'Publisher', placeholder: 'e.g., Widenfeld & Nicholson' },
-                { name: 'city', label: 'City of Publication', placeholder: 'e.g., London' },
-            ],
-            film: [
-                { name: 'title', label: 'Film Title', placeholder: 'e.g., Gattaca' },
-                { name: 'year', label: 'Year of Release', placeholder: 'e.g., 2021' },
-                { name: 'country', label: 'Country of Origin', placeholder: 'e.g., United States' },
-                { name: 'studio', label: 'Production Studio', placeholder: 'e.g., Columbia Pictures' },
-            ]
+        // --- DATA CONFIGURATION (APA 7th Edition) ---
+        const citationTypes = {
+            website: {
+                fields: [
+                    { name: 'author', label: 'Author/Organisation', placeholder: 'e.g., World Health Organization' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2025' },
+                    { name: 'title', label: 'Page Title', placeholder: 'e.g., Coronavirus disease (COVID-19)' },
+                    { name: 'url', label: 'URL', placeholder: 'https://...' },
+                ],
+                template: (v) => `${v.author}. (${v.year}). <i>${v.title}</i>. ${v.url}`
+            },
+            onlineEncyclopedia: {
+                fields: [
+                    { name: 'author', label: 'Author (if available)', placeholder: 'e.g., Oberg, J.' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2025' },
+                    { name: 'title', label: 'Article Title', placeholder: 'e.g., Space exploration' },
+                    { name: 'encyclopedia', label: 'Encyclopedia Name', placeholder: 'e.g., World Book Student' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., World Book' },
+                    { name: 'url', label: 'URL', placeholder: 'https://...' },
+                ],
+                template: (v) => v.author 
+                    ? `${v.author}. (${v.year}). ${v.title}. In <i>${v.encyclopedia}</i>. ${v.publisher}. ${v.url}`
+                    : `${v.title}. (${v.year}). In <i>${v.encyclopedia}</i>. ${v.publisher}. ${v.url}`
+            },
+            youtube: {
+                fields: [
+                    { name: 'uploader', label: 'Uploader/Channel Name', placeholder: 'e.g., National Geographic' },
+                    { name: 'year', label: 'Year Uploaded', placeholder: 'e.g., 2025' },
+                    { name: 'title', label: 'Video Title', placeholder: 'e.g., The Earth is Not Alone' },
+                    { name: 'url', label: 'URL', placeholder: 'https://...' },
+                ],
+                template: (v) => `${v.uploader}. (${v.year}). <i>${v.title}</i> [Video]. YouTube. ${v.url}`
+            },
+            onlineNewspaper: {
+                fields: [
+                    { name: 'author', label: 'Author(s)', placeholder: 'e.g., Whitbourn, M.' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2025' },
+                    { name: 'month', label: 'Month of Publication', placeholder: 'e.g., March' },
+                    { name: 'day', label: 'Day of Publication', placeholder: 'e.g., 4' },
+                    { name: 'title', label: 'Article Title', placeholder: 'e.g., The tweet that cost $105,000' },
+                    { name: 'newspaper', label: 'Newspaper Name', placeholder: 'e.g., The Sydney Morning Herald' },
+                    { name: 'url', label: 'URL', placeholder: 'http://...' },
+                ],
+                template: (v) => `${v.author}. (${v.year}, ${v.month} ${v.day}). ${v.title}. <i>${v.newspaper}</i>. ${v.url}`
+            },
+            onlineMagazine: {
+                fields: [
+                    { name: 'author', label: 'Author(s)', placeholder: 'e.g., Lovett, P.' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2024' },
+                    { name: 'month', label: 'Month of Publication', placeholder: 'e.g., March' },
+                    { name: 'title', label: 'Article Title', placeholder: 'e.g., Man-made earthquakes...' },
+                    { name: 'magazine', label: 'Magazine Name', placeholder: 'e.g., Cosmos: The Science of Everything' },
+                    { name: 'url', label: 'URL', placeholder: 'http://...' },
+                ],
+                template: (v) => `${v.author}. (${v.year}, ${v.month}). ${v.title}. <i>${v.magazine}</i>. ${v.url}`
+            },
+            onlineImage: {
+                fields: [
+                    { name: 'author', label: 'Artist/Creator (if known)', placeholder: 'e.g., Monet, C.' },
+                    { name: 'year', label: 'Year Created', placeholder: 'e.g., 1890' },
+                    { name: 'title', label: 'Image Title', placeholder: 'e.g., Haystacks, midday' },
+                    { name: 'medium', label: 'Medium/Type', placeholder: 'e.g., Painting' },
+                    { name: 'gallery', label: 'Gallery/Website', placeholder: 'e.g., National Gallery of Australia' },
+                    { name: 'url', label: 'URL', placeholder: 'http://...' },
+                ],
+                template: (v) => v.author 
+                    ? `${v.author}. (${v.year}). <i>${v.title}</i> [${v.medium}]. ${v.gallery}. ${v.url}`
+                    : `<i>${v.title}</i>. (${v.year}). [${v.medium}]. ${v.gallery}. ${v.url}`
+            },
+            googleMaps: {
+                fields: [
+                    { name: 'title', label: 'Location/Place Name', placeholder: 'e.g., Himalayas' },
+                    { name: 'year', label: 'Year', placeholder: 'e.g., 2025' },
+                    { name: 'url', label: 'URL', placeholder: 'https://...' },
+                    { name: 'viewedDay', label: 'Retrieved Day', placeholder: 'e.g., 21' },
+                    { name: 'viewedMonth', label: 'Retrieved Month', placeholder: 'e.g., March' },
+                    { name: 'viewedYear', label: 'Retrieved Year', placeholder: 'e.g., 2025' },
+                ],
+                template: (v) => `Google. (${v.year}). <i>${v.title}</i>. Retrieved ${v.viewedMonth} ${v.viewedDay}, ${v.viewedYear}, from ${v.url}`
+            },
+            podcast: {
+                 fields: [
+                    { name: 'host', label: 'Host(s)', placeholder: 'e.g., Glass, I.' },
+                    { name: 'year', label: 'Year', placeholder: 'e.g., 2025' },
+                    { name: 'month', label: 'Month of Broadcast', placeholder: 'e.g., February' },
+                    { name: 'day', label: 'Day of Broadcast', placeholder: 'e.g., 28' },
+                    { name: 'episodeTitle', label: 'Episode Title', placeholder: 'e.g., The Giant Pool of Money' },
+                    { name: 'podcastTitle', label: 'Podcast Name', placeholder: 'e.g., This American Life' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., WBEZ Chicago' },
+                    { name: 'url', label: 'URL', placeholder: 'http://...' },
+                ],
+                template: (v) => `${v.host}. (Host). (${v.year}, ${v.month} ${v.day}). ${v.episodeTitle} [Audio podcast episode]. In <i>${v.podcastTitle}</i>. ${v.publisher}. ${v.url}`
+            },
+            book: {
+                fields: [
+                    { name: 'author', label: 'Author(s)', placeholder: 'e.g., Holden, A.' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2024' },
+                    { name: 'title', label: 'Book Title', placeholder: 'e.g., Earthquakes and Volcanoes' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., Widenfeld & Nicholson' },
+                ],
+                template: (v) => `${v.author}. (${v.year}). <i>${v.title}</i>. ${v.publisher}.`
+            },
+            film: {
+                fields: [
+                    { name: 'director', label: 'Director(s)', placeholder: 'e.g., Niccol, A.' },
+                    { name: 'year', label: 'Year of Release', placeholder: 'e.g., 2021' },
+                    { name: 'title', label: 'Film Title', placeholder: 'e.g., Gattaca' },
+                    { name: 'studio', label: 'Production Studio', placeholder: 'e.g., Columbia Pictures' },
+                ],
+                template: (v) => `${v.director}. (Director). (${v.year}). <i>${v.title}</i> [Film]. ${v.studio}.`
+            }
         };
 
-        // --- Functions ---
+        // --- CORE FUNCTIONS ---
 
-        /**
-         * Renders the input fields based on the selected citation type.
-         * Also shows/hides the 'Viewed Today' button.
-         */
         function renderFields() {
             const type = citationTypeSelect.value;
-            const fields = citationFields[type];
-            fieldsContainer.innerHTML = ''; // Clear existing fields
+            const config = citationTypes[type];
+            fieldsContainer.innerHTML = ''; 
 
-            const needsAccessDate = fields.some(f => f.name.startsWith('viewed') || f.name.startsWith('accessed'));
-            if (needsAccessDate) {
-                todayBtn.classList.remove('hidden');
-            } else {
-                todayBtn.classList.add('hidden');
-            }
+            const needsAccessDate = config.fields.some(f => f.name.startsWith('viewed'));
+            todayBtn.classList.toggle('hidden', !needsAccessDate);
 
-            fields.forEach(field => {
+            config.fields.forEach(field => {
                 const fieldWrapper = document.createElement('div');
-                if (['title', 'url', 'newspaper', 'encyclopedia', 'magazine', 'gallery', 'studio'].includes(field.name)) {
+                if (['title', 'url', 'newspaper', 'encyclopedia', 'magazine', 'gallery', 'studio', 'podcastTitle', 'episodeTitle'].includes(field.name)) {
                      fieldWrapper.className = 'sm:col-span-2';
                 }
 
@@ -286,9 +288,29 @@
             });
         }
 
-        /**
-         * Fills the date fields with the current date.
-         */
+        function generateCitation() {
+            const type = citationTypeSelect.value;
+            const config = citationTypes[type];
+            const values = {};
+
+            config.fields.forEach(field => {
+                const inputElement = document.getElementById(field.name);
+                values[field.name] = inputElement ? inputElement.value.trim() : '';
+            });
+
+            let citation = config.template(values);
+           
+            // Clean up any empty parts or extra punctuation
+            citation = citation.replace(/\(\)\.|\(\s*\)\./g, '') // remove empty parenthesis
+                               .replace(/, ,/g, ',')
+                               .replace(/\. \./g, '.')
+                               .replace(/  +/g, ' ')
+                               .trim();
+            
+            citationOutput.innerHTML = citation; // Use innerHTML to render italics
+            outputContainer.classList.remove('hidden');
+        }
+
         function fillTodaysDate() {
             const date = new Date();
             const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -311,72 +333,8 @@
             });
         }
 
-        /**
-         * Gathers input values and generates the Harvard-style citation.
-         */
-        function generateCitation() {
-            const type = citationTypeSelect.value;
-            const values = {};
-            const inputs = fieldsContainer.querySelectorAll('input');
-            inputs.forEach(input => {
-                values[input.name] = input.value.trim();
-            });
-
-            let citation = 'Please fill in all the required fields.';
-
-            // Generate citation string based on type
-            try {
-                 switch (type) {
-                    case 'website':
-                        citation = `${values.author}, ${values.year}, ${values.title}, viewed ${values.viewedDay} ${values.viewedMonth} ${values.viewedYear}, ${values.url}`;
-                        break;
-                    case 'onlineEncyclopedia':
-                        if (values.author) {
-                            citation = `${values.author}, ${values.year}, "${values.title}", ${values.encyclopedia}, ${values.publisher}, ${values.city}, viewed ${values.viewedDay} ${values.viewedMonth} ${values.viewedYear}, ${values.url}`;
-                        } else {
-                            citation = `"${values.title}", ${values.year}, ${values.encyclopedia}, viewed ${values.viewedDay} ${values.viewedMonth} ${values.viewedYear}, ${values.url}`;
-                        }
-                        break;
-                    case 'youtube':
-                        citation = `${values.title}, ${values.year}, YouTube video, viewed ${values.viewedDay} ${values.viewedMonth} ${values.viewedYear}, ${values.url}`;
-                        break;
-                    case 'onlineNewspaper':
-                        citation = `${values.author}, ${values.year}, "${values.title}", ${values.newspaper}, ${values.day} ${values.month}, p. ${values.page}, ${values.url}`;
-                        break;
-                    case 'onlineMagazine':
-                        citation = `${values.author}, ${values.year}, "${values.title}", ${values.magazine}, viewed ${values.viewedDay} ${values.viewedMonth} ${values.viewedYear}, ${values.url}`;
-                        break;
-                    case 'onlineImage':
-                        let authorOrTitle = values.author ? `${values.author}, ${values.year}, ${values.title}` : `${values.title}, ${values.year}`;
-                        citation = `${authorOrTitle}, ${values.medium}, ${values.gallery}, ${values.city}, viewed ${values.viewedDay} ${values.viewedMonth} ${values.viewedYear}, ${values.url}`;
-                        break;
-                    case 'googleMaps':
-                        citation = `"${values.title}", ${values.year}, Google Maps, viewed ${values.viewedDay} ${values.viewedMonth} ${values.viewedYear}, ${values.url}`;
-                        break;
-                    case 'podcast':
-                        citation = `${values.title}, ${values.year}, audio podcast, ${values.publisher}, ${values.city}, ${values.day} ${values.month}, accessed ${values.accessedDay} ${values.accessedMonth} ${values.accessedYear}, ${values.url}`;
-                        break;
-                    case 'book':
-                        citation = `${values.author}, ${values.year}, ${values.title}, ${values.publisher}, ${values.city}.`;
-                        break;
-                    case 'film':
-                        citation = `${values.title}, ${values.year}, motion picture, ${values.country}, ${values.studio}.`;
-                        break;
-                }
-            } catch (e) {
-                console.error("Error generating citation:", e);
-                citation = "An error occurred. Please check your input."
-            }
-           
-            citationOutput.textContent = citation.replace(/, ,/g, ',').replace(/, \./g, '.').replace(/  +/g, ' '); // Basic cleanup
-            outputContainer.classList.remove('hidden');
-        }
-
-        /**
-         * Copies the generated citation text to the clipboard.
-         */
         function copyToClipboard() {
-            const textToCopy = citationOutput.textContent;
+            const textToCopy = citationOutput.innerText; // Use innerText to copy without HTML tags
             const tempTextArea = document.createElement('textarea');
             tempTextArea.value = textToCopy;
             document.body.appendChild(tempTextArea);
