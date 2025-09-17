@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APA 7 Citation Generator</title>
+    <title>SKC Citation Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -81,8 +81,8 @@
     <div class="container mx-auto max-w-2xl p-4 sm:p-6 lg:p-8">
         <div class="bg-white rounded-2xl shadow-lg p-8">
             <header class="text-center mb-8">
-                <h1 class="text-3xl sm:text-4xl font-bold main-title">APA 7 Citation Generator</h1>
-                <p class="text-gray-500 mt-2">Create accurate citations for your research papers and assignments.</p>
+                <h1 class="text-3xl sm:text-4xl font-bold main-title">SKC Citation Generator</h1>
+                <p class="text-gray-500 mt-2">Create accurate citations for your research papers and assignments using APA7</p>
             </header>
 
             <main>
@@ -91,15 +91,20 @@
                     <label for="citationType" class="form-label">Select Resource Type:</label>
                     <select id="citationType" class="form-input mt-1">
                         <option value="website">Website</option>
-                        <option value="onlineEncyclopedia">Online Encyclopedia</option>
-                        <option value="youtube">YouTube Video</option>
+                        <option value="journalArticle">Journal Article</option>
+                        <option value="book">Book (Printed)</option>
+                        <option value="ebook">eBook</option>
                         <option value="onlineNewspaper">Online Newspaper Article</option>
                         <option value="onlineMagazine">Online Magazine Article</option>
+                        <option value="onlineEncyclopedia">Online Encyclopedia</option>
+                        <option value="wikipedia">Wikipedia</option>
+                        <option value="youtube">YouTube Video</option>
+                        <option value="tedTalk">TED Talk</option>
+                        <option value="podcast">Podcast Episode</option>
+                        <option value="film">Film</option>
                         <option value="onlineImage">Online Image</option>
                         <option value="googleMaps">Google Maps</option>
-                        <option value="podcast">Podcast (Audio)</option>
-                        <option value="book">Book (Hard Copy)</option>
-                        <option value="film">Film</option>
+                        <option value="generativeAI">Generative AI</option>
                     </select>
                 </div>
 
@@ -145,113 +150,167 @@
         const citationTypes = {
             website: {
                 fields: [
-                    { name: 'author', label: 'Author/Organisation', placeholder: 'e.g., World Health Organization' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2025' },
-                    { name: 'title', label: 'Page Title', placeholder: 'e.g., Coronavirus disease (COVID-19)' },
+                    { name: 'author', label: 'Author/Group Name', placeholder: 'e.g., Ecological Society of Australia' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2020' },
+                    { name: 'title', label: 'Page Title', placeholder: 'e.g., Ecosystem recovery fund...' },
+                    { name: 'siteName', label: 'Site Name', placeholder: 'e.g., Ecological Society of Australia' },
                     { name: 'url', label: 'URL', placeholder: 'https://...' },
                 ],
-                template: (v) => `${v.author}. (${v.year}). <i>${v.title}</i>. ${v.url}`
+                template: (v) => `${v.author}. (${v.year}). <i>${v.title}</i>. ${v.siteName}. ${v.url}`
             },
-            onlineEncyclopedia: {
+            journalArticle: {
                 fields: [
-                    { name: 'author', label: 'Author (if available)', placeholder: 'e.g., Oberg, J.' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2025' },
-                    { name: 'title', label: 'Article Title', placeholder: 'e.g., Space exploration' },
-                    { name: 'encyclopedia', label: 'Encyclopedia Name', placeholder: 'e.g., World Book Student' },
-                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., World Book' },
-                    { name: 'url', label: 'URL', placeholder: 'https://...' },
+                    { name: 'author', label: 'Author(s)', placeholder: 'e.g., Rankine, A., & Callow, J.' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2017' },
+                    { name: 'title', label: 'Article Title', placeholder: 'e.g., "It’s all lighted up..."' },
+                    { name: 'journal', label: 'Journal Name', placeholder: 'e.g., Scan' },
+                    { name: 'volume', label: 'Volume', placeholder: 'e.g., 36' },
+                    { name: 'issue', label: 'Issue', placeholder: 'e.g., 4' },
+                    { name: 'pages', label: 'Pages', placeholder: 'e.g., 46-54' },
+                    { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
                 ],
-                template: (v) => v.author 
-                    ? `${v.author}. (${v.year}). ${v.title}. In <i>${v.encyclopedia}</i>. ${v.publisher}. ${v.url}`
-                    : `${v.title}. (${v.year}). In <i>${v.encyclopedia}</i>. ${v.publisher}. ${v.url}`
+                template: (v) => `${v.author}. (${v.year}). ${v.title}. <i>${v.journal}</i>, <i>${v.volume}</i>(${v.issue}), ${v.pages}. ${v.url}`
             },
-            youtube: {
+            book: {
                 fields: [
-                    { name: 'uploader', label: 'Uploader/Channel Name', placeholder: 'e.g., National Geographic' },
-                    { name: 'year', label: 'Year Uploaded', placeholder: 'e.g., 2025' },
-                    { name: 'title', label: 'Video Title', placeholder: 'e.g., The Earth is Not Alone' },
+                    { name: 'author', label: 'Author(s)', placeholder: 'e.g., Benesch, S.' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2001' },
+                    { name: 'title', label: 'Book Title', placeholder: 'e.g., Critical English for academic purposes...' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., Lawrence Erlbaum' },
+                ],
+                template: (v) => `${v.author}. (${v.year}). <i>${v.title}</i>. ${v.publisher}.`
+            },
+            ebook: {
+                fields: [
+                    { name: 'author', label: 'Author(s)', placeholder: 'e.g., Bacon, F.' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2007' },
+                    { name: 'title', label: 'Book Title', placeholder: 'e.g., The essays of Francis Bacon' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., Project Gutenberg' },
                     { name: 'url', label: 'URL', placeholder: 'https://...' },
                 ],
-                template: (v) => `${v.uploader}. (${v.year}). <i>${v.title}</i> [Video]. YouTube. ${v.url}`
+                template: (v) => `${v.author}. (${v.year}). <i>${v.title}</i>. ${v.publisher}. ${v.url}`
             },
             onlineNewspaper: {
                 fields: [
-                    { name: 'author', label: 'Author(s)', placeholder: 'e.g., Whitbourn, M.' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2025' },
-                    { name: 'month', label: 'Month of Publication', placeholder: 'e.g., March' },
-                    { name: 'day', label: 'Day of Publication', placeholder: 'e.g., 4' },
-                    { name: 'title', label: 'Article Title', placeholder: 'e.g., The tweet that cost $105,000' },
-                    { name: 'newspaper', label: 'Newspaper Name', placeholder: 'e.g., The Sydney Morning Herald' },
+                    { name: 'author', label: 'Author(s)', placeholder: 'e.g., Schwartz, J.' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2019' },
+                    { name: 'month', label: 'Month of Publication', placeholder: 'e.g., September' },
+                    { name: 'day', label: 'Day of Publication', placeholder: 'e.g., 30' },
+                    { name: 'title', label: 'Article Title', placeholder: 'e.g., Obesity affects economic...' },
+                    { name: 'newspaper', label: 'Newspaper Name', placeholder: 'e.g., The New York Times' },
                     { name: 'url', label: 'URL', placeholder: 'http://...' },
                 ],
                 template: (v) => `${v.author}. (${v.year}, ${v.month} ${v.day}). ${v.title}. <i>${v.newspaper}</i>. ${v.url}`
             },
             onlineMagazine: {
                 fields: [
-                    { name: 'author', label: 'Author(s)', placeholder: 'e.g., Lovett, P.' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2024' },
-                    { name: 'month', label: 'Month of Publication', placeholder: 'e.g., March' },
-                    { name: 'title', label: 'Article Title', placeholder: 'e.g., Man-made earthquakes...' },
-                    { name: 'magazine', label: 'Magazine Name', placeholder: 'e.g., Cosmos: The Science of Everything' },
+                    { name: 'author', label: 'Author(s)', placeholder: 'e.g., Proudlove, C.' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2018' },
+                    { name: 'month', label: 'Month of Publication', placeholder: 'e.g., November' },
+                    { name: 'title', label: 'Article Title', placeholder: 'e.g., Daring to divert...' },
+                    { name: 'magazine', label: 'Magazine Name', placeholder: 'e.g., Inside Waste' },
                     { name: 'url', label: 'URL', placeholder: 'http://...' },
                 ],
                 template: (v) => `${v.author}. (${v.year}, ${v.month}). ${v.title}. <i>${v.magazine}</i>. ${v.url}`
             },
-            onlineImage: {
+             onlineEncyclopedia: {
                 fields: [
-                    { name: 'author', label: 'Artist/Creator (if known)', placeholder: 'e.g., Monet, C.' },
-                    { name: 'year', label: 'Year Created', placeholder: 'e.g., 1890' },
-                    { name: 'title', label: 'Image Title', placeholder: 'e.g., Haystacks, midday' },
-                    { name: 'medium', label: 'Medium/Type', placeholder: 'e.g., Painting' },
-                    { name: 'gallery', label: 'Gallery/Website', placeholder: 'e.g., National Gallery of Australia' },
-                    { name: 'url', label: 'URL', placeholder: 'http://...' },
+                    { name: 'author', label: 'Author/Group', placeholder: 'e.g., American Psychological Association' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2015' },
+                    { name: 'title', label: 'Article Title', placeholder: 'e.g., Attachment' },
+                    { name: 'editor', label: 'Editor (if available)', placeholder: 'e.g., Vandenbos, G. R.' },
+                    { name: 'encyclopedia', label: 'Encyclopedia Name', placeholder: 'e.g., APA dictionary of psychology' },
+                    { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
                 ],
-                template: (v) => v.author 
-                    ? `${v.author}. (${v.year}). <i>${v.title}</i> [${v.medium}]. ${v.gallery}. ${v.url}`
-                    : `<i>${v.title}</i>. (${v.year}). [${v.medium}]. ${v.gallery}. ${v.url}`
+                template: (v) => v.editor 
+                    ? `${v.author}. (${v.year}). ${v.title}. In ${v.editor} (Ed.), <i>${v.encyclopedia}</i>. ${v.url}`
+                    : `${v.author}. (${v.year}). ${v.title}. In <i>${v.encyclopedia}</i>. ${v.url}`
             },
-            googleMaps: {
+            wikipedia: {
                 fields: [
-                    { name: 'title', label: 'Location/Place Name', placeholder: 'e.g., Himalayas' },
-                    { name: 'year', label: 'Year', placeholder: 'e.g., 2025' },
+                    { name: 'title', label: 'Entry Title', placeholder: 'e.g., Yellow fever' },
+                    { name: 'year', label: 'Year', placeholder: 'e.g., 2020' },
+                    { name: 'month', label: 'Month', placeholder: 'e.g., January' },
+                    { name: 'day', label: 'Day', placeholder: 'e.g., 17' },
                     { name: 'url', label: 'URL', placeholder: 'https://...' },
-                    { name: 'viewedDay', label: 'Retrieved Day', placeholder: 'e.g., 21' },
-                    { name: 'viewedMonth', label: 'Retrieved Month', placeholder: 'e.g., March' },
-                    { name: 'viewedYear', label: 'Retrieved Year', placeholder: 'e.g., 2025' },
                 ],
-                template: (v) => `Google. (${v.year}). <i>${v.title}</i>. Retrieved ${v.viewedMonth} ${v.viewedDay}, ${v.viewedYear}, from ${v.url}`
+                template: (v) => `${v.title}. (${v.year}, ${v.month} ${v.day}). In <i>Wikipedia</i>. ${v.url}`
+            },
+            youtube: {
+                fields: [
+                    { name: 'uploader', label: 'Uploader Name', placeholder: 'e.g., La Trobe University Library' },
+                    { name: 'username', label: 'Username', placeholder: 'e.g., Library La Trobe University' },
+                    { name: 'year', label: 'Year Uploaded', placeholder: 'e.g., 2010' },
+                    { name: 'month', label: 'Month Uploaded', placeholder: 'e.g., February' },
+                    { name: 'day', label: 'Day Uploaded', placeholder: 'e.g., 9' },
+                    { name: 'title', label: 'Video Title', placeholder: 'e.g., Why can’t I just Google?' },
+                    { name: 'url', label: 'URL', placeholder: 'https://...' },
+                ],
+                template: (v) => `${v.uploader} [${v.username}]. (${v.year}, ${v.month} ${v.day}). <i>${v.title}</i> [Video]. YouTube. ${v.url}`
+            },
+            tedTalk: {
+                fields: [
+                    { name: 'speaker', label: 'Speaker Name', placeholder: 'e.g., Aral, S.' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2018' },
+                    { name: 'month', label: 'Month Published', placeholder: 'e.g., November' },
+                    { name: 'title', label: 'Talk Title', placeholder: 'e.g., How we can protect truth...' },
+                    { name: 'url', label: 'URL', placeholder: 'https://...' },
+                ],
+                template: (v) => `${v.speaker}. (${v.year}, ${v.month}). <i>${v.title}</i> [Video]. TED. ${v.url}`
             },
             podcast: {
                  fields: [
-                    { name: 'host', label: 'Host(s)', placeholder: 'e.g., Glass, I.' },
-                    { name: 'year', label: 'Year', placeholder: 'e.g., 2025' },
-                    { name: 'month', label: 'Month of Broadcast', placeholder: 'e.g., February' },
-                    { name: 'day', label: 'Day of Broadcast', placeholder: 'e.g., 28' },
-                    { name: 'episodeTitle', label: 'Episode Title', placeholder: 'e.g., The Giant Pool of Money' },
-                    { name: 'podcastTitle', label: 'Podcast Name', placeholder: 'e.g., This American Life' },
-                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., WBEZ Chicago' },
+                    { name: 'host', label: 'Host/Presenter', placeholder: 'e.g., Malcolm, L.' },
+                    { name: 'year', label: 'Year', placeholder: 'e.g., 2018' },
+                    { name: 'month', label: 'Month of Broadcast', placeholder: 'e.g., October' },
+                    { name: 'day', label: 'Day of Broadcast', placeholder: 'e.g., 14' },
+                    { name: 'episodeTitle', label: 'Episode Title', placeholder: 'e.g., Ways to stay alive' },
+                    { name: 'podcastTitle', label: 'Podcast Name', placeholder: 'e.g., All in the mind' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., ABC' },
                     { name: 'url', label: 'URL', placeholder: 'http://...' },
                 ],
-                template: (v) => `${v.host}. (Host). (${v.year}, ${v.month} ${v.day}). ${v.episodeTitle} [Audio podcast episode]. In <i>${v.podcastTitle}</i>. ${v.publisher}. ${v.url}`
-            },
-            book: {
-                fields: [
-                    { name: 'author', label: 'Author(s)', placeholder: 'e.g., Holden, A.' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2024' },
-                    { name: 'title', label: 'Book Title', placeholder: 'e.g., Earthquakes and Volcanoes' },
-                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., Widenfeld & Nicholson' },
-                ],
-                template: (v) => `${v.author}. (${v.year}). <i>${v.title}</i>. ${v.publisher}.`
+                template: (v) => `${v.host}. (Presenter). (${v.year}, ${v.month} ${v.day}). ${v.episodeTitle} [Audio podcast episode]. In <i>${v.podcastTitle}</i>. ${v.publisher}. ${v.url}`
             },
             film: {
                 fields: [
-                    { name: 'director', label: 'Director(s)', placeholder: 'e.g., Niccol, A.' },
-                    { name: 'year', label: 'Year of Release', placeholder: 'e.g., 2021' },
-                    { name: 'title', label: 'Film Title', placeholder: 'e.g., Gattaca' },
-                    { name: 'studio', label: 'Production Studio', placeholder: 'e.g., Columbia Pictures' },
+                    { name: 'director', label: 'Director(s)', placeholder: 'e.g., Spielberg, S.' },
+                    { name: 'year', label: 'Year of Release', placeholder: 'e.g., 1975' },
+                    { name: 'title', label: 'Film Title', placeholder: 'e.g., Jaws' },
+                    { name: 'studio', label: 'Production Studio', placeholder: 'e.g., Universal Pictures' },
                 ],
                 template: (v) => `${v.director}. (Director). (${v.year}). <i>${v.title}</i> [Film]. ${v.studio}.`
-            }
+            },
+            onlineImage: {
+                fields: [
+                    { name: 'author', label: 'Artist/Creator', placeholder: 'e.g., Anders, B.' },
+                    { name: 'year', label: 'Year Created', placeholder: 'e.g., 1968' },
+                    { name: 'title', label: 'Image Title', placeholder: 'e.g., Earthrise' },
+                    { name: 'medium', label: 'Description', placeholder: 'e.g., Photograph' },
+                    { name: 'gallery', label: 'Website/Publisher', placeholder: 'e.g., Time: 100 Photos' },
+                    { name: 'url', label: 'URL', placeholder: 'http://...' },
+                ],
+                template: (v) => `${v.author}. (${v.year}). <i>${v.title}</i> [${v.medium}]. ${v.gallery}. ${v.url}`
+            },
+            googleMaps: {
+                fields: [
+                    { name: 'title', label: 'Location/Description', placeholder: 'e.g., Google maps directions...' },
+                    { name: 'viewedDay', label: 'Retrieved Day', placeholder: 'e.g., 5' },
+                    { name: 'viewedMonth', label: 'Retrieved Month', placeholder: 'e.g., February' },
+                    { name: 'viewedYear', label: 'Retrieved Year', placeholder: 'e.g., 2020' },
+                    { name: 'url', label: 'URL', placeholder: 'https://...' },
+                ],
+                template: (v) => `Google. (n.d.). [${v.title}]. Retrieved ${v.viewedMonth} ${v.viewedDay}, ${v.viewedYear}, from ${v.url}`
+            },
+             generativeAI: {
+                fields: [
+                    { name: 'author', label: 'Author/Company', placeholder: 'e.g., OpenAI' },
+                    { name: 'year', label: 'Year', placeholder: 'e.g., 2023' },
+                    { name: 'generator', label: 'AI Generator Name', placeholder: 'e.g., ChatGPT' },
+                    { name: 'version', label: 'Version', placeholder: 'e.g., Mar 23' },
+                    { name: 'url', label: 'URL', placeholder: 'https://...' },
+                ],
+                template: (v) => `${v.author}. (${v.year}). <i>${v.generator}</i> (${v.version} version) [Large language model]. ${v.url}`
+            },
         };
 
         // --- CORE FUNCTIONS ---
@@ -266,7 +325,7 @@
 
             config.fields.forEach(field => {
                 const fieldWrapper = document.createElement('div');
-                if (['title', 'url', 'newspaper', 'encyclopedia', 'magazine', 'gallery', 'studio', 'podcastTitle', 'episodeTitle'].includes(field.name)) {
+                if (['title', 'url', 'newspaper', 'encyclopedia', 'magazine', 'gallery', 'studio', 'podcastTitle', 'episodeTitle', 'journal', 'siteName'].includes(field.name)) {
                      fieldWrapper.className = 'sm:col-span-2';
                 }
 
@@ -365,5 +424,4 @@
 
 </body>
 </html>
-
 
