@@ -92,7 +92,8 @@
                     <label for="citationType" class="form-label">Select Resource Type:</label>
                     <select id="citationType" class="form-input mt-1">
                         <option value="website">Website</option>
-                        <option value="journalArticle">Magazine/Journal Article (Online)</option>
+                        
+                        <!-- Alphabetical order from here -->
                         <optgroup label="Book (Print)">
                             <option value="bookOneAuthor">Book (One Author)</option>
                             <option value="bookTwoAuthors">Book (Two Authors)</option>
@@ -107,13 +108,14 @@
                             <option value="ebookEditor">eBook (Editor)</option>
                             <option value="ebookNoAuthor">eBook (No Author)</option>
                         </optgroup>
-                        <option value="onlineNewspaper">Newspaper Article (Online)</option>
-                        <option value="onlineEncyclopedia">Encyclopedia (Online)</option>
-                        <option value="wikipedia">Wikipedia</option>
-                        <option value="youtube">Video</option>
-                        <option value="tedTalk">TED Talk</option>
-                        <option value="podcast">Podcast</option>
+                        
+                        <optgroup label="Encyclopedia (Online)">
+                            <option value="onlineEncyclopediaWithAuthor">Encyclopedia (online) with author</option>
+                            <option value="onlineEncyclopediaNoAuthor">Encyclopedia (online) without author</option>
+                        </optgroup>
+                        
                         <option value="film">Film</option>
+                        <option value="generativeAI">Generative AI</option>
                         <optgroup label="Image (Online)">
                             <option value="onlineImageWithCreator">Image (Online) with creator</option>
                             <option value="onlineImageNoCreator">Image (Online) without creator</option>
@@ -122,8 +124,24 @@
                             <option value="printImageWithCreator">Image (Print) with creator</option>
                             <option value="printImageNoCreator">Image (Print) without creator</option>
                         </optgroup>
+                        
+                        <optgroup label="Magazine/Journal Article (Online)">
+                            <option value="journalArticleWithAuthor">Magazine/Journal (online) with author</option>
+                            <option value="journalArticleNoAuthor">Magazine/Journal (online) without author</option>
+                        </optgroup>
+                        
                         <option value="googleMaps">Maps (Online)</option>
-                        <option value="generativeAI">Generative AI</option>
+                        
+                        <optgroup label="Newspaper Article (Online)">
+                            <option value="onlineNewspaperWithAuthor">Newspaper (online) with author</option>
+                            <option value="onlineNewspaperNoAuthor">Newspaper (online) without author</option>
+                        </optgroup>
+                        
+                        <option value="podcast">Podcast</option>
+                        <option value="tableGraph">Table/Graph</option>
+                        <option value="tedTalk">TED Talk</option>
+                        <option value="youtube">Video</option>
+                        <option value="wikipedia">Wikipedia</option>
                     </select>
                 </div>
 
@@ -166,28 +184,28 @@
         const copyMessage = document.getElementById('copy-message');
 
         // --- DATA CONFIGURATION (APA 7th Edition) ---
+        // Placeholders updated to remove comma after "e.g."
         const citationTypes = {
             website: {
                 fields: [
-                    { name: 'author', label: 'Author/Group Name', placeholder: 'e.g., Ecological Society of Australia' },
-                    { name: 'year', label: 'Year Published/Last Updated', placeholder: 'e.g., 2020' },
-                    { name: 'title', label: 'Page Title', placeholder: 'e.g., Ecosystem recovery fund...' },
-                    { name: 'siteName', label: 'Site Name', placeholder: 'e.g., Ecological Society of Australia' },
+                    { name: 'author', label: 'Author/Site Name', placeholder: 'e.g. CSIRO' },
+                    { name: 'year', label: 'Year Published/Last Updated', placeholder: 'e.g. 2020' },
+                    { name: 'title', label: 'Page Title', placeholder: 'e.g. CSIRO' },
                     { name: 'url', label: 'URL', placeholder: 'https://...' },
                 ],
-                template: (v) => `${v.author}. (${v.year}). <i>${v.title}</i>. ${v.siteName}. ${v.url}`
+                template: (v) => `${v.author}. (${v.year}). <i>${v.title}</i>. ${v.url}`
             },
-            journalArticle: {
+            journalArticleWithAuthor: {
                 fields: [
-                    { name: 'author', label: 'Author(s)', placeholder: 'e.g., Rankine, A., & Callow, J.' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2017' },
-                    { name: 'month', label: 'Month of Issue (if available)', placeholder: 'e.g., September' },
-                    { name: 'day', label: 'Date of Issue (if available)', placeholder: 'e.g., 14' },
-                    { name: 'title', label: 'Article Title', placeholder: 'e.g., "It’s all lighted up..."' },
-                    { name: 'journal', label: 'Journal Name', placeholder: 'e.g., Scan' },
-                    { name: 'volume', label: 'Volume', placeholder: 'e.g., 36' },
-                    { name: 'issue', label: 'Issue Number (if available)', placeholder: 'e.g., 4' },
-                    { name: 'pages', label: 'Pages', placeholder: 'e.g., 46-54' },
+                    { name: 'author', label: 'Author(s)', placeholder: 'e.g. Rankine, A., & Callow, J.' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2017' },
+                    { name: 'month', label: 'Month of Issue (if available)', placeholder: 'e.g. September' },
+                    { name: 'day', label: 'Date of Issue (if available)', placeholder: 'e.g. 14' },
+                    { name: 'title', label: 'Article Title', placeholder: 'e.g. "It’s all lighted up..."' },
+                    { name: 'journal', label: 'Journal Name', placeholder: 'e.g. Scan' },
+                    { name: 'volume', label: 'Volume', placeholder: 'e.g. 36' },
+                    { name: 'issue', label: 'Issue Number (if available)', placeholder: 'e.g. 4' },
+                    { name: 'pages', label: 'Pages', placeholder: 'e.g. 46-54' },
                     { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
                 ],
                 template: (v) => {
@@ -218,106 +236,149 @@
                     return `${v.author}. (${datePart}). ${v.title}. ${journalString} ${v.url}`;
                 }
             },
+            journalArticleNoAuthor: {
+                fields: [
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2017' },
+                    { name: 'month', label: 'Month of Issue (if available)', placeholder: 'e.g. September' },
+                    { name: 'day', label: 'Date of Issue (if available)', placeholder: 'e.g. 14' },
+                    { name: 'title', label: 'Article Title', placeholder: 'e.g. "It’s all lighted up..."' },
+                    { name: 'journal', label: 'Journal Name', placeholder: 'e.g. Scan' },
+                    { name: 'volume', label: 'Volume', placeholder: 'e.g. 36' },
+                    { name: 'issue', label: 'Issue Number (if available)', placeholder: 'e.g. 4' },
+                    { name: 'pages', label: 'Pages', placeholder: 'e.g. 46-54' },
+                    { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
+                ],
+                template: (v) => {
+                    let datePart = v.year;
+                    if (v.month && v.day) {
+                        datePart += `, ${v.month} ${v.day}`;
+                    } else if (v.month) {
+                        datePart += `, ${v.month}`;
+                    }
+                    
+                    let journalString = `<i>${v.journal}</i>`;
+                    let volIssPages = [];
+                    if (v.volume) {
+                        volIssPages.push(`<i>${v.volume}</i>` + (v.issue ? `(${v.issue})` : ''));
+                    } else if (v.issue) {
+                        volIssPages.push(`(${v.issue})`); // No volume, but issue. Not italicized per APA7.
+                    }
+                    
+                    if (v.pages) {
+                        volIssPages.push(v.pages);
+                    }
+                    
+                    if (volIssPages.length > 0) {
+                        journalString += `, ${volIssPages.join(', ')}`;
+                    }
+                    journalString += '.';
+                    
+                    // No author, so title comes first
+                    return `${v.title}. (${datePart}). ${journalString} ${v.url}`;
+                }
+            },
             bookOneAuthor: {
                 fields: [
-                    { name: 'author', label: 'Author', placeholder: 'e.g., Benesch, S' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2001' },
-                    { name: 'title', label: 'Book Title', placeholder: 'e.g., Critical English for academic purposes...' },
-                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., Lawrence Erlbaum' },
+                    { name: 'author', label: 'Author', placeholder: 'e.g. Benesch, S' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2001' },
+                    { name: 'title', label: 'Book Title', placeholder: 'e.g. Critical English for academic purposes...' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Lawrence Erlbaum' },
                 ],
                 template: (v) => `${v.author}. (${v.year}). <i>${v.title}</i>. ${v.publisher}.`
             },
             bookTwoAuthors: {
                 fields: [
-                    { name: 'authors', label: 'Authors', placeholder: 'e.g., Grant, P. R., & Grant, B. R.' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2008' },
-                    { name: 'title', label: 'Book Title', placeholder: 'e.g., How and why species multiply...' },
-                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., Princeton University Press' },
+                    { name: 'author1', label: 'Author 1', placeholder: 'e.g. Grant, P. R.' },
+                    { name: 'author2', label: 'Author 2', placeholder: 'e.g. Grant, B. R.' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2008' },
+                    { name: 'title', label: 'Book Title', placeholder: 'e.g. How and why species multiply...' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Princeton University Press' },
                 ],
-                template: (v) => `${v.authors}. (${v.year}). <i>${v.title}</i>. ${v.publisher}.`
+                template: (v) => `${v.author1}., & ${v.author2}. (${v.year}). <i>${v.title}</i>. ${v.publisher}.`
             },
             bookMultiAuthors: {
                 fields: [
-                    { name: 'authors', label: 'Authors (up to 20)', placeholder: 'e.g., Fraser, J., Waters, D., Forster, E., & Brown, N.' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2014' },
-                    { name: 'title', label: 'Book Title', placeholder: 'e.g., Paediatric nursing in Australia...' },
-                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., Cambridge University Press' },
+                    { name: 'authors', label: 'Authors (up to 20)', placeholder: 'e.g. Fraser, J., Waters, D., Forster, E., & Brown, N.' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2014' },
+                    { name: 'title', label: 'Book Title', placeholder: 'e.g. Paediatric nursing in Australia...' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Cambridge University Press' },
                 ],
                 template: (v) => `${v.authors}. (${v.year}). <i>${v.title}</i>. ${v.publisher}.`
             },
             bookEditor: {
                 fields: [
-                    { name: 'editor', label: 'Editor(s)', placeholder: 'e.g., Smith, J. (Ed.) or Smith, J., & Jones, P. (Eds.)' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2001' },
-                    { name: 'title', label: 'Book Title', placeholder: 'e.g., Critical English for academic purposes...' },
-                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., Lawrence Erlbaum' },
+                    { name: 'editor', label: 'Editor(s)', placeholder: 'e.g. Smith, J. (Ed.) or Smith, J., & Jones, P. (Eds.)' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2001' },
+                    { name: 'title', label: 'Book Title', placeholder: 'e.g. Critical English for academic purposes...' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Lawrence Erlbaum' },
                 ],
                 template: (v) => `${v.editor}. (${v.year}). <i>${v.title}</i>. ${v.publisher}.`
             },
             bookNoAuthor: {
                 fields: [
-                    { name: 'title', label: 'Book Title', placeholder: 'e.g., Merriam-Webster\'s collegiate dictionary' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2003' },
-                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., Merriam-Webster' },
+                    { name: 'title', label: 'Book Title', placeholder: 'e.g. Merriam-Webster\'s collegiate dictionary' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2003' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Merriam-Webster' },
                 ],
                 template: (v) => `<i>${v.title}</i>. (${v.year}). ${v.publisher}.`
             },
             ebookOneAuthor: {
                 fields: [
-                    { name: 'author', label: 'Author', placeholder: 'e.g., Bacon, F.' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2007' },
-                    { name: 'title', label: 'Book Title', placeholder: 'e.g., The essays of Francis Bacon' },
-                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., Project Gutenberg' },
+                    { name: 'author', label: 'Author', placeholder: 'e.g. Bacon, F.' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2007' },
+                    { name: 'title', label: 'Book Title', placeholder: 'e.g. The essays of Francis Bacon' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Project Gutenberg' },
                     { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
                 ],
                 template: (v) => `${v.author}. (${v.year}). <i>${v.title}</i>. ${v.publisher}. ${v.url}`
             },
             ebookTwoAuthors: {
                 fields: [
-                    { name: 'authors', label: 'Authors', placeholder: 'e.g., Grant, P. R., & Grant, B. R.' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2008' },
-                    { name: 'title', label: 'Book Title', placeholder: 'e.g., How and why species multiply...' },
-                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., Princeton University Press' },
+                    { name: 'author1', label: 'Author 1', placeholder: 'e.g. Grant, P. R.' },
+                    { name: 'author2', label: 'Author 2', placeholder: 'e.g. Grant, B. R.' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2008' },
+                    { name: 'title', label: 'Book Title', placeholder: 'e.g. How and why species multiply...' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Princeton University Press' },
                     { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
                 ],
-                template: (v) => `${v.authors}. (${v.year}). <i>${v.title}</i>. ${v.publisher}. ${v.url}`
+                template: (v) => `${v.author1}., & ${v.author2}. (${v.year}). <i>${v.title}</i>. ${v.publisher}. ${v.url}`
             },
             ebookMultiAuthors: {
                 fields: [
-                    { name: 'authors', label: 'Authors (up to 20)', placeholder: 'e.g., Fraser, J., Waters, D., Forster, E., & Brown, N.' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2014' },
-                    { name: 'title', label: 'Book Title', placeholder: 'e.g., Paediatric nursing in Australia...' },
-                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., Cambridge University Press' },
+                    { name: 'authors', label: 'Authors (up to 20)', placeholder: 'e.g. Fraser, J., Waters, D., Forster, E., & Brown, N.' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2014' },
+                    { name: 'title', label: 'Book Title', placeholder: 'e.g. Paediatric nursing in Australia...' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Cambridge University Press' },
                     { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
                 ],
                 template: (v) => `${v.authors}. (${v.year}). <i>${v.title}</i>. ${v.publisher}. ${v.url}`
             },
             ebookEditor: {
                 fields: [
-                    { name: 'editor', label: 'Editor(s)', placeholder: 'e.g., Smith, J. (Ed.) or Smith, J., & Jones, P. (Eds.)' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2001' },
-                    { name: 'title', label: 'Book Title', placeholder: 'e.g., Critical English for academic purposes...' },
-                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., Lawrence Erlbaum' },
+                    { name: 'editor', label: 'Editor(s)', placeholder: 'e.g. Smith, J. (Ed.) or Smith, J., & Jones, P. (Eds.)' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2001' },
+                    { name: 'title', label: 'Book Title', placeholder: 'e.g. Critical English for academic purposes...' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Lawrence Erlbaum' },
                     { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
                 ],
                 template: (v) => `${v.editor}. (${v.year}). <i>${v.title}</i>. ${v.publisher}. ${v.url}`
             },
             ebookNoAuthor: {
                 fields: [
-                    { name: 'title', label: 'Book Title', placeholder: 'e.g., Merriam-Webster\'s collegiate dictionary' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2003' },
-                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., Merriam-Webster' },
+                    { name: 'title', label: 'Book Title', placeholder: 'e.g. Merriam-Webster\'s collegiate dictionary' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2003' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Merriam-Webster' },
                     { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
                 ],
                 template: (v) => `<i>${v.title}</i>. (${v.year}). ${v.publisher}. ${v.url}`
             },
-            onlineNewspaper: {
+            onlineNewspaperWithAuthor: {
                 fields: [
-                    { name: 'author', label: 'Author(s)', placeholder: 'e.g., Schwartz, J.' },
-                    { name: 'date', label: 'Date of Publication', placeholder: 'e.g., 2019, September 30' },
-                    { name: 'title', label: 'Article Title', placeholder: 'e.g., Obesity affects economic...' },
-                    { name: 'newspaper', label: 'Newspaper Name', placeholder: 'e.g., The New York Times' },
-                    { name: 'pages', label: 'Page(s): (if available)', placeholder: 'e.g., p. A1 or pp. B2-B4' },
+                    { name: 'author', label: 'Author(s)', placeholder: 'e.g. Schwartz, J.' },
+                    { name: 'date', label: 'Date of Publication', placeholder: 'e.g. 2019, September 30' },
+                    { name: 'title', label: 'Article Title', placeholder: 'e.g. Obesity affects economic...' },
+                    { name: 'newspaper', label: 'Newspaper Name', placeholder: 'e.g. The New York Times' },
+                    { name: 'pages', label: 'Page(s): (if available)', placeholder: 'e.g. p. A1 or pp. B2-B4' },
                     { name: 'url', label: 'URL', placeholder: 'http://...' },
                 ],
                 template: (v) => {
@@ -328,14 +389,31 @@
                     return `${v.author}. (${v.date}). ${v.title}. ${newspaperPart}. ${v.url}`;
                 }
             },
-             onlineEncyclopedia: {
+            onlineNewspaperNoAuthor: {
                 fields: [
-                    { name: 'author', label: 'Author/Group', placeholder: 'e.g., American Psychological Association' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g., 2015' },
-                    { name: 'title', label: 'Article Title', placeholder: 'e.g., Attachment' },
-                    { name: 'editor', label: 'Editor (if available)', placeholder: 'e.g., Vandenbos, G. R.' },
-                    { name: 'encyclopedia', label: 'Encyclopedia Name', placeholder: 'e.g., APA dictionary of psychology' },
-                    { name: 'edition', label: 'Edition (if available):', placeholder: 'e.g., 2nd ed.' },
+                    { name: 'date', label: 'Date of Publication', placeholder: 'e.g. 2019, September 30' },
+                    { name: 'title', label: 'Article Title', placeholder: 'e.g. Obesity affects economic...' },
+                    { name: 'newspaper', label: 'Newspaper Name', placeholder: 'e.g. The New York Times' },
+                    { name: 'pages', label: 'Page(s): (if available)', placeholder: 'e.g. p. A1 or pp. B2-B4' },
+                    { name: 'url', label: 'URL', placeholder: 'http://...' },
+                ],
+                template: (v) => {
+                    let newspaperPart = `<i>${v.newspaper}</i>`;
+                    if (v.pages) {
+                        newspaperPart += `, ${v.pages}`;
+                    }
+                    // No author, so title comes first.
+                    return `${v.title}. (${v.date}). ${newspaperPart}. ${v.url}`;
+                }
+            },
+             onlineEncyclopediaWithAuthor: {
+                fields: [
+                    { name: 'author', label: 'Author/Group', placeholder: 'e.g. American Psychological Association' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2015' },
+                    { name: 'title', label: 'Article Title', placeholder: 'e.g. Attachment' },
+                    { name: 'editor', label: 'Editor (if available)', placeholder: 'e.g. Vandenbos, G. R.' },
+                    { name: 'encyclopedia', label: 'Encyclopedia Name', placeholder: 'e.g. APA dictionary of psychology' },
+                    { name: 'edition', label: 'Edition (if available):', placeholder: 'e.g. 2nd ed.' },
                     { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
                 ],
                 template: (v) => {
@@ -349,111 +427,152 @@
                         : `${v.author}. (${v.year}). ${v.title}. In ${encyclopediaPart}. ${v.url}`;
                 }
             },
+            onlineEncyclopediaNoAuthor: {
+                fields: [
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2015' },
+                    { name: 'title', label: 'Article Title', placeholder: 'e.g. Attachment' },
+                    { name: 'editor', label: 'Editor (if available)', placeholder: 'e.g. Vandenbos, G. R.' },
+                    { name: 'encyclopedia', label: 'Encyclopedia Name', placeholder: 'e.g. APA dictionary of psychology' },
+                    { name: 'edition', label: 'Edition (if available):', placeholder: 'e.g. 2nd ed.' },
+                    { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
+                ],
+                template: (v) => {
+                    let encyclopediaPart = `<i>${v.encyclopedia}</i>`;
+                    if (v.edition) {
+                        encyclopediaPart += ` (${v.edition})`;
+                    }
+                    
+                    // No author, so title comes first
+                    return v.editor 
+                        ? `${v.title}. (${v.year}). In ${v.editor} (Ed.), ${encyclopediaPart}. ${v.url}`
+                        : `${v.title}. (${v.year}). In ${encyclopediaPart}. ${v.url}`;
+                }
+            },
             wikipedia: {
                 fields: [
-                    { name: 'title', label: 'Entry Title', placeholder: 'e.g., Yellow fever' },
-                    { name: 'year', label: 'Year', placeholder: 'e.g., 2020' },
-                    { name: 'month', label: 'Month', placeholder: 'e.g., January' },
-                    { name: 'day', label: 'Day', placeholder: 'e.g., 17' },
+                    { name: 'title', label: 'Entry Title', placeholder: 'e.g. Yellow fever' },
+                    { name: 'year', label: 'Year', placeholder: 'e.g. 2020' },
+                    { name: 'month', label: 'Month', placeholder: 'e.g. January' },
+                    { name: 'day', label: 'Day', placeholder: 'e.g. 17' },
                     { name: 'url', label: 'URL', placeholder: 'https://...' },
                 ],
                 template: (v) => `${v.title}. (${v.year}, ${v.month} ${v.day}). In <i>Wikipedia</i>. ${v.url}`
             },
             youtube: {
                 fields: [
-                    { name: 'uploader', label: 'Uploader Name', placeholder: 'e.g., La Trobe University Library' },
-                    { name: 'username', label: 'Username', placeholder: 'e.g., Library La Trobe University' },
-                    { name: 'date', label: 'Date of video', placeholder: 'e.g., 2010, February 9' },
-                    { name: 'title', label: 'Video Title', placeholder: 'e.g., Why can’t I just Google?' },
+                    { name: 'uploader', label: 'Uploader Name', placeholder: 'e.g. La Trobe University Library' },
+                    { name: 'username', label: 'Username', placeholder: 'e.g. Library La Trobe University' },
+                    { name: 'date', label: 'Date of video', placeholder: 'e.g. 2010, February 9' },
+                    { name: 'title', label: 'Video Title', placeholder: 'e.g. Why can’t I just Google?' },
                     { name: 'url', label: 'URL', placeholder: 'https://...' },
                 ],
                 template: (v) => `${v.uploader} [${v.username}]. (${v.date}). <i>${v.title}</i> [Video]. YouTube. ${v.url}`
             },
             tedTalk: {
                 fields: [
-                    { name: 'speaker', label: 'Speaker Name', placeholder: 'e.g., Aral, S.' },
-                    { name: 'date', label: 'Date of Talk', placeholder: 'e.g., 2018, November' },
-                    { name: 'title', label: 'Talk Title', placeholder: 'e.g., How we can protect truth...' },
+                    { name: 'speaker', label: 'Speaker Name', placeholder: 'e.g. Aral, S.' },
+                    { name: 'date', label: 'Date of Talk', placeholder: 'e.g. 2018, November' },
+                    { name: 'title', label: 'Talk Title', placeholder: 'e.g. How we can protect truth...' },
                     { name: 'url', label: 'URL', placeholder: 'https://...' },
                 ],
                 template: (v) => `${v.speaker}. (${v.date}). <i>${v.title}</i> [Video]. TED. ${v.url}`
             },
             podcast: {
                  fields: [
-                    { name: 'host', label: 'Host/Presenter', placeholder: 'e.g., Malcolm, L.' },
-                    { name: 'date', label: 'Date of episode', placeholder: 'e.g., 2018, October 14' },
-                    { name: 'episodeTitle', label: 'Episode Title', placeholder: 'e.g., Ways to stay alive' },
-                    { name: 'podcastTitle', label: 'Podcast Name', placeholder: 'e.g., All in the mind' },
-                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g., ABC' },
+                    { name: 'host', label: 'Host/Presenter', placeholder: 'e.g. Malcolm, L.' },
+                    { name: 'date', label: 'Date of episode', placeholder: 'e.g. 2018, October 14' },
+                    { name: 'episodeTitle', label: 'Episode Title', placeholder: 'e.g. Ways to stay alive' },
+                    { name: 'podcastTitle', label: 'Podcast Name', placeholder: 'e.g. All in the mind' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g. ABC' },
                     { name: 'url', label: 'URL', placeholder: 'http://...' },
                 ],
                 template: (v) => `${v.host}. (Presenter). (${v.date}). ${v.episodeTitle} [Audio podcast episode]. In <i>${v.podcastTitle}</i>. ${v.publisher}. ${v.url}`
             },
+            tableGraph: {
+                fields: [
+                    { name: 'author', label: 'Creator\'s Name/Compiler', placeholder: 'e.g. Stats R Us' },
+                    { name: 'date', label: 'Date of Publication', placeholder: 'e.g. 2021, March 15' },
+                    { name: 'title', label: 'Title', placeholder: 'e.g. Annual Coffee Consumption' },
+                    { name: 'format', label: 'Format', placeholder: 'e.g. Table' },
+                    { name: 'siteName', label: 'Website Title', placeholder: 'e.g. World Data Bank' },
+                    { name: 'viewedDay', label: 'Retrieved Day', placeholder: 'e.g. 5' },
+                    { name: 'viewedMonth', label: 'Retrieved Month', placeholder: 'e.g. February' },
+                    { name: 'viewedYear', label: 'Retrieved Year', placeholder: 'e.g. 2020' },
+                    { name: 'url', label: 'URL', placeholder: 'https://...' },
+                ],
+                template: (v) => {
+                    let titlePart = `<i>${v.title}</i>`;
+                    if (v.format) {
+                        titlePart += ` [${v.format}]`;
+                    }
+                    return `${v.author}. (${v.date}). ${titlePart}. ${v.siteName}. Retrieved ${v.viewedMonth} ${v.viewedDay}, ${v.viewedYear}, from ${v.url}`;
+                }
+            },
             film: {
                 fields: [
-                    { name: 'director', label: 'Director(s)', placeholder: 'e.g., Spielberg, S.' },
-                    { name: 'year', label: 'Year of Release', placeholder: 'e.g., 1975' },
-                    { name: 'title', label: 'Film Title', placeholder: 'e.g., Jaws' },
-                    { name: 'studio', label: 'Production Studio', placeholder: 'e.g., Universal Pictures' },
+                    { name: 'director', label: 'Director(s)', placeholder: 'e.g. Spielberg, S.' },
+                    { name: 'year', label: 'Year of Release', placeholder: 'e.g. 1975' },
+                    { name: 'title', label: 'Film Title', placeholder: 'e.g. Jaws' },
+                    { name: 'studio', label: 'Production Studio', placeholder: 'e.g. Universal Pictures' },
                 ],
                 template: (v) => `${v.director}. (Director). (${v.year}). <i>${v.title}</i> [Film]. ${v.studio}.`
             },
             onlineImageWithCreator: {
                 fields: [
-                    { name: 'author', label: 'Artist/Creator', placeholder: 'e.g., Anders, B.' },
-                    { name: 'year', label: 'Year Created', placeholder: 'e.g., 1968' },
-                    { name: 'title', label: 'Image Title', placeholder: 'e.g., Earthrise' },
-                    { name: 'medium', label: 'Description', placeholder: 'e.g., Photograph' },
-                    { name: 'gallery', label: 'Website/Publisher', placeholder: 'e.g., Time: 100 Photos' },
+                    { name: 'author', label: 'Artist/Creator', placeholder: 'e.g. Anders, B.' },
+                    { name: 'year', label: 'Year Created', placeholder: 'e.g. 1968' },
+                    { name: 'title', label: 'Image Title', placeholder: 'e.g. Earthrise' },
+                    { name: 'medium', label: 'Description', placeholder: 'e.g. Photograph' },
+                    { name: 'gallery', label: 'Website/Publisher', placeholder: 'e.g. Time: 100 Photos' },
                     { name: 'url', label: 'URL', placeholder: 'http://...' },
                 ],
                 template: (v) => `${v.author}. (${v.year}). <i>${v.title}</i> [${v.medium}]. ${v.gallery}. ${v.url}`
             },
             onlineImageNoCreator: {
                 fields: [
-                    { name: 'title', label: 'Image Title', placeholder: 'e.g., Earthrise' },
-                    { name: 'year', label: 'Year Created', placeholder: 'e.g., 1968' },
-                    { name: 'medium', label: 'Description', placeholder: 'e.g., Photograph' },
-                    { name: 'gallery', label: 'Website/Publisher', placeholder: 'e.g., Time: 100 Photos' },
+                    { name: 'title', label: 'Image Title', placeholder: 'e.g. Earthrise' },
+                    { name: 'year', label: 'Year Created', placeholder: 'e.g. 1968' },
+                    { name: 'medium', label: 'Description', placeholder: 'e.g. Photograph' },
+                    { name: 'gallery', label: 'Website/Publisher', placeholder: 'e.g. Time: 100 Photos' },
                     { name: 'url', label: 'URL', placeholder: 'http://...' },
                 ],
                 template: (v) => `<i>${v.title}</i>. (${v.year}). [${v.medium}]. ${v.gallery}. ${v.url}`
             },
             printImageWithCreator: {
                 fields: [
-                    { name: 'author', label: 'Artist/Creator', placeholder: 'e.g., Goya, F.' },
-                    { name: 'year', label: 'Year Created', placeholder: 'e.g., 1814' },
-                    { name: 'title', label: 'Image Title', placeholder: 'e.g., The Third of May' },
-                    { name: 'medium', label: 'Description', placeholder: 'e.g., Oil on canvas' },
-                    { name: 'location', label: 'Museum/Location', placeholder: 'e.g., Museo del Prado, Madrid' },
+                    { name: 'author', label: 'Artist/Creator', placeholder: 'e.g. Goya, F.' },
+                    { name: 'year', label: 'Year Created', placeholder: 'e.g. 1814' },
+                    { name: 'title', label: 'Image Title', placeholder: 'e.g. The Third of May' },
+                    { name: 'medium', label: 'Description', placeholder: 'e.g. Oil on canvas' },
+                    { name: 'location', label: 'Museum/Location', placeholder: 'e.g. Museo del Prado, Madrid' },
                 ],
                 template: (v) => `${v.author}. (${v.year}). <i>${v.title}</i> [${v.medium}]. ${v.location}.`
             },
             printImageNoCreator: {
                 fields: [
-                    { name: 'title', label: 'Image Title', placeholder: 'e.g., Bayeux Tapestry' },
-                    { name: 'year', label: 'Year Created', placeholder: 'e.g., c. 1070' },
-                    { name: 'medium', label: 'Description', placeholder: 'e.g., Embroidery' },
-                    { name: 'location', label: 'Museum/Location', placeholder: 'e.g., Bayeux Museum, Bayeux' },
+                    { name: 'title', label: 'Image Title', placeholder: 'e.g. Bayeux Tapestry' },
+                    { name: 'year', label: 'Year Created', placeholder: 'e.g. c. 1070' },
+                    { name: 'medium', label: 'Description', placeholder: 'e.g. Embroidery' },
+                    { name: 'location', label: 'Museum/Location', placeholder: 'e.g. Bayeux Museum, Bayeux' },
                 ],
                 template: (v) => `<i>${v.title}</i>. (${v.year}). [${v.medium}]. ${v.location}.`
             },
             googleMaps: {
                 fields: [
-                    { name: 'title', label: 'Location/Description', placeholder: 'e.g., Google maps directions...' },
-                    { name: 'viewedDay', label: 'Retrieved Day', placeholder: 'e.g., 5' },
-                    { name: 'viewedMonth', label: 'Retrieved Month', placeholder: 'e.g., February' },
-                    { name: 'viewedYear', label: 'Retrieved Year', placeholder: 'e.g., 2020' },
+                    { name: 'title', label: 'Location/Description', placeholder: 'e.g. Google maps directions...' },
+                    { name: 'viewedDay', label: 'Retrieved Day', placeholder: 'e.g. 5' },
+                    { name: 'viewedMonth', label: 'Retrieved Month', placeholder: 'e.g. February' },
+                    { name: 'viewedYear', label: 'Retrieved Year', placeholder: 'e.g. 2020' },
                     { name: 'url', label: 'URL', placeholder: 'https://...' },
                 ],
                 template: (v) => `Google. (n.d.). [${v.title}]. Retrieved ${v.viewedMonth} ${v.viewedDay}, ${v.viewedYear}, from ${v.url}`
             },
              generativeAI: {
                 fields: [
-                    { name: 'author', label: 'Author/Company', placeholder: 'e.g., OpenAI' },
-                    { name: 'year', label: 'Year', placeholder: 'e.g., 2023' },
-                    { name: 'generator', label: 'AI Generator Name', placeholder: 'e.g., ChatGPT' },
-                    { name: 'version', label: 'Version', placeholder: 'e.g., Mar 23' },
+                    { name: 'author', label: 'Author/Company', placeholder: 'e.g. OpenAI' },
+                    { name: 'year', label: 'Year', placeholder: 'e.g. 2023' },
+                    { name: 'generator', label: 'AI Generator Name', placeholder: 'e.g. ChatGPT' },
+                    { name: 'version', label: 'Version', placeholder: 'e.g. Mar 23' },
                     { name: 'url', label: 'URL', placeholder: 'https://...' },
                 ],
                 template: (v) => `${v.author}. (${v.year}). <i>${v.generator}</i> (${v.version} version) [Large language model]. ${v.url}`
@@ -505,13 +624,15 @@
             });
 
             let citation = config.template(values);
-           
+            
             // Clean up any empty parts or extra punctuation
             citation = citation.replace(/\(\)\.|\(\s*\)\./g, '') // remove empty parenthesis
-                               .replace(/, ,/g, ',')
-                               .replace(/\. \./g, '.')
-                               .replace(/  +/g, ' ')
-                               .trim();
+                                .replace(/, ,/g, ',')
+                                .replace(/\. \./g, '.') // remove double periods with space
+                                .replace(/\.\./g, '.') // remove double periods without space
+                                .replace(/  +/g, ' ')
+                                .replace(/^\s*\./, '') // remove any leading period
+                                .trim();
             
             citationOutput.innerHTML = citation; // Use innerHTML to render italics
             outputContainer.classList.remove('hidden');
@@ -571,17 +692,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
