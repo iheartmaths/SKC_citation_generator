@@ -190,7 +190,7 @@
                 fields: [
                     { name: 'author', label: 'Author/Site Name', placeholder: 'e.g. CSIRO' },
                     { name: 'year', label: 'Year Published/Last Updated', placeholder: 'e.g. 2020' },
-                    { name: 'title', label: 'Page Title', placeholder: 'e.g. CSIRO' },
+                    { name: 'title', label: 'Page Title', placeholder: 'e.g. How stem cells work' },
                     { name: 'url', label: 'URL', placeholder: 'https://...' },
                 ],
                 template: (v) => `${v.author}. (${v.year}). <i>${v.title}</i>. ${v.url}`
@@ -280,26 +280,26 @@
             bookOneAuthor: {
                 fields: [
                     { name: 'author', label: 'Author', placeholder: 'e.g. Benesch, S' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2001' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2021' },
                     { name: 'title', label: 'Book Title', placeholder: 'e.g. Critical English for academic purposes...' },
-                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Lawrence Erlbaum' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Penguin' },
                 ],
                 template: (v) => `${v.author}. (${v.year}). <i>${v.title}</i>. ${v.publisher}.`
             },
             bookTwoAuthors: {
                 fields: [
-                    { name: 'author1', label: 'Author 1', placeholder: 'e.g. Grant, P. R.' },
-                    { name: 'author2', label: 'Author 2', placeholder: 'e.g. Grant, B. R.' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2008' },
+                    { name: 'author1', label: 'Author 1', placeholder: 'e.g. Grant, P.' },
+                    { name: 'author2', label: 'Author 2', placeholder: 'e.g. Jones, B.' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2023' },
                     { name: 'title', label: 'Book Title', placeholder: 'e.g. How and why species multiply...' },
-                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Princeton University Press' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g. MacMillan' },
                 ],
                 template: (v) => `${v.author1}., & ${v.author2}. (${v.year}). <i>${v.title}</i>. ${v.publisher}.`
             },
             bookMultiAuthors: {
                 fields: [
                     { name: 'authors', label: 'Authors (up to 20)', placeholder: 'e.g. Fraser, J., Waters, D., Forster, E., & Brown, N.' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2014' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2024' },
                     { name: 'title', label: 'Book Title', placeholder: 'e.g. Paediatric nursing in Australia...' },
                     { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Cambridge University Press' },
                 ],
@@ -308,7 +308,7 @@
             bookEditor: {
                 fields: [
                     { name: 'editor', label: 'Editor(s)', placeholder: 'e.g. Smith, J. (Ed.) or Smith, J., & Jones, P. (Eds.)' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2001' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2021' },
                     { name: 'title', label: 'Book Title', placeholder: 'e.g. Critical English for academic purposes...' },
                     { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Lawrence Erlbaum' },
                 ],
@@ -317,7 +317,7 @@
             bookNoAuthor: {
                 fields: [
                     { name: 'title', label: 'Book Title', placeholder: 'e.g. Merriam-Webster\'s collegiate dictionary' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2003' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2023' },
                     { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Merriam-Webster' },
                 ],
                 template: (v) => `<i>${v.title}</i>. (${v.year}). ${v.publisher}.`
@@ -325,7 +325,7 @@
             ebookOneAuthor: {
                 fields: [
                     { name: 'author', label: 'Author', placeholder: 'e.g. Bacon, F.' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2007' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2017' },
                     { name: 'title', label: 'Book Title', placeholder: 'e.g. The essays of Francis Bacon' },
                     { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Project Gutenberg' },
                     { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
@@ -334,9 +334,9 @@
             },
             ebookTwoAuthors: {
                 fields: [
-                    { name: 'author1', label: 'Author 1', placeholder: 'e.g. Grant, P. R.' },
-                    { name: 'author2', label: 'Author 2', placeholder: 'e.g. Grant, B. R.' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2008' },
+                    { name: 'author1', label: 'Author 1', placeholder: 'e.g. Grant, P.' },
+                    { name: 'author2', label: 'Author 2', placeholder: 'e.g. Smith, B.' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2018' },
                     { name: 'title', label: 'Book Title', placeholder: 'e.g. How and why species multiply...' },
                     { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Princeton University Press' },
                     { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
@@ -346,7 +346,7 @@
             ebookMultiAuthors: {
                 fields: [
                     { name: 'authors', label: 'Authors (up to 20)', placeholder: 'e.g. Fraser, J., Waters, D., Forster, E., & Brown, N.' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2014' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2024' },
                     { name: 'title', label: 'Book Title', placeholder: 'e.g. Paediatric nursing in Australia...' },
                     { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Cambridge University Press' },
                     { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
@@ -356,7 +356,7 @@
             ebookEditor: {
                 fields: [
                     { name: 'editor', label: 'Editor(s)', placeholder: 'e.g. Smith, J. (Ed.) or Smith, J., & Jones, P. (Eds.)' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2001' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2021' },
                     { name: 'title', label: 'Book Title', placeholder: 'e.g. Critical English for academic purposes...' },
                     { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Lawrence Erlbaum' },
                     { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
@@ -366,7 +366,7 @@
             ebookNoAuthor: {
                 fields: [
                     { name: 'title', label: 'Book Title', placeholder: 'e.g. Merriam-Webster\'s collegiate dictionary' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2003' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2023' },
                     { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Merriam-Webster' },
                     { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
                 ],
@@ -409,54 +409,31 @@
              onlineEncyclopediaWithAuthor: {
                 fields: [
                     { name: 'author', label: 'Author/Group', placeholder: 'e.g. American Psychological Association' },
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2015' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2025' },
                     { name: 'title', label: 'Article Title', placeholder: 'e.g. Attachment' },
-                    { name: 'editor', label: 'Editor (if available)', placeholder: 'e.g. Vandenbos, G. R.' },
                     { name: 'encyclopedia', label: 'Encyclopedia Name', placeholder: 'e.g. APA dictionary of psychology' },
-                    { name: 'edition', label: 'Edition (if available):', placeholder: 'e.g. 2nd ed.' },
                     { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
                 ],
-                template: (v) => {
-                    let encyclopediaPart = `<i>${v.encyclopedia}</i>`;
-                    if (v.edition) {
-                        encyclopediaPart += ` (${v.edition})`;
-                    }
-                    
-                    return v.editor 
-                        ? `${v.author}. (${v.year}). ${v.title}. In ${v.editor} (Ed.), ${encyclopediaPart}. ${v.url}`
-                        : `${v.author}. (${v.year}). ${v.title}. In ${encyclopediaPart}. ${v.url}`;
-                }
+                template: (v) => `${v.author}. (${v.year}). ${v.title}. In <i>${v.encyclopedia}</i>. ${v.url}`
             },
             onlineEncyclopediaNoAuthor: {
                 fields: [
-                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2015' },
+                    { name: 'year', label: 'Year Published', placeholder: 'e.g. 2025' },
                     { name: 'title', label: 'Article Title', placeholder: 'e.g. Attachment' },
-                    { name: 'editor', label: 'Editor (if available)', placeholder: 'e.g. Vandenbos, G. R.' },
                     { name: 'encyclopedia', label: 'Encyclopedia Name', placeholder: 'e.g. APA dictionary of psychology' },
-                    { name: 'edition', label: 'Edition (if available):', placeholder: 'e.g. 2nd ed.' },
                     { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
                 ],
-                template: (v) => {
-                    let encyclopediaPart = `<i>${v.encyclopedia}</i>`;
-                    if (v.edition) {
-                        encyclopediaPart += ` (${v.edition})`;
-                    }
-                    
-                    // No author, so title comes first
-                    return v.editor 
-                        ? `${v.title}. (${v.year}). In ${v.editor} (Ed.), ${encyclopediaPart}. ${v.url}`
-                        : `${v.title}. (${v.year}). In ${encyclopediaPart}. ${v.url}`;
-                }
+                template: (v) => `${v.title}. (${v.year}). In <i>${v.encyclopedia}</i>. ${v.url}`
             },
             wikipedia: {
                 fields: [
                     { name: 'title', label: 'Entry Title', placeholder: 'e.g. Yellow fever' },
-                    { name: 'year', label: 'Year', placeholder: 'e.g. 2020' },
-                    { name: 'month', label: 'Month', placeholder: 'e.g. January' },
-                    { name: 'day', label: 'Day', placeholder: 'e.g. 17' },
+                    { name: 'viewedDay', label: 'Retrieved Day', placeholder: 'e.g. 5' },
+                    { name: 'viewedMonth', label: 'Retrieved Month', placeholder: 'e.g. February' },
+                    { name: 'viewedYear', label: 'Retrieved Year', placeholder: 'e.g. 2020' },
                     { name: 'url', label: 'URL', placeholder: 'https://...' },
                 ],
-                template: (v) => `${v.title}. (${v.year}, ${v.month} ${v.day}). In <i>Wikipedia</i>. ${v.url}`
+                template: (v) => `${v.title}. (n.d.). In <i>Wikipedia</i>. Retrieved ${v.viewedMonth} ${v.viewedDay}, ${v.viewedYear}, from ${v.url}`
             },
             youtube: {
                 fields: [
