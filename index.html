@@ -281,7 +281,7 @@
                 fields: [
                     { name: 'author', label: 'Author', placeholder: 'e.g. Benesch, S' },
                     { name: 'year', label: 'Year Published', placeholder: 'e.g. 2021' },
-                    { name: 'title', label: 'Book Title', placeholder: 'e.g. Critical English for academic purposes...' },
+                    { name: 'title', label: 'Book Title', placeholder: 'e.g. The Sports Book' },
                     { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Penguin' },
                 ],
                 template: (v) => `${v.author}. (${v.year}). <i>${v.title}</i>. ${v.publisher}.`
@@ -292,7 +292,7 @@
                     { name: 'author2', label: 'Author 2', placeholder: 'e.g. Jones, B.' },
                     { name: 'year', label: 'Year Published', placeholder: 'e.g. 2023' },
                     { name: 'title', label: 'Book Title', placeholder: 'e.g. How and why species multiply...' },
-                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g. MacMillan' },
+                    { name: 'publisher', label: 'Publisher', placeholder: 'e.g. Macmillan' },
                 ],
                 template: (v) => `${v.author1}., & ${v.author2}. (${v.year}). <i>${v.title}</i>. ${v.publisher}.`
             },
@@ -411,7 +411,7 @@
                     { name: 'author', label: 'Author/Group', placeholder: 'e.g. American Psychological Association' },
                     { name: 'year', label: 'Year Published', placeholder: 'e.g. 2025' },
                     { name: 'title', label: 'Article Title', placeholder: 'e.g. Attachment' },
-                    { name: 'encyclopedia', label: 'Encyclopedia Name', placeholder: 'e.g. APA dictionary of psychology' },
+                    { name: 'encyclopedia', label: 'Encyclopedia Name', placeholder: 'e.g. Britannica School' },
                     { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
                 ],
                 template: (v) => `${v.author}. (${v.year}). ${v.title}. In <i>${v.encyclopedia}</i>. ${v.url}`
@@ -420,7 +420,7 @@
                 fields: [
                     { name: 'year', label: 'Year Published', placeholder: 'e.g. 2025' },
                     { name: 'title', label: 'Article Title', placeholder: 'e.g. Attachment' },
-                    { name: 'encyclopedia', label: 'Encyclopedia Name', placeholder: 'e.g. APA dictionary of psychology' },
+                    { name: 'encyclopedia', label: 'Encyclopedia Name', placeholder: 'e.g. World Book' },
                     { name: 'url', label: 'URL/DOI', placeholder: 'https://...' },
                 ],
                 template: (v) => `${v.title}. (${v.year}). In <i>${v.encyclopedia}</i>. ${v.url}`
